@@ -17,7 +17,6 @@ def control_errdN(error_d):
         return (b_Ned - error_d) / (b_Ned - a_Ned)
     else:
         return 0
-        
 def control_errdZ(error_d):
     a_Zed = -1.5
     b_Zed = 0
@@ -29,13 +28,13 @@ def control_errdZ(error_d):
     else:
         return 0
 def control_errdP(error_d):
-    a_Ped = -0
-    b_Ped = 0.2
+    a_Ped = 0
+    b_Ped = 1
     if error_d <= a_Ped:
         return 0
     elif error_d >= a_Ped and error_d <= b_Ped:
-        return (error_x - a_Pex) / (b_Ped - a_Ped)
-    elif error_x >= b_Pex:
+        return (error_d - a_Ped) / (b_Ped - a_Ped)
+    elif error_d >= b_Ped:
         return 1
 # funciones eX -----------------------------------------------
 def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
@@ -47,7 +46,6 @@ def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
         return (b_Nex - error_x) / (b_Nex - a_Nex)
     else:
         return 0
-
 def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
     a_Zex = -0.15134
     b_Zex = 0
@@ -58,17 +56,44 @@ def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
         return (error_x - d_Zex) / (b_Zex - d_Zex)
     else:
         return 0
-
 def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
-    a_Pex = -0
+    a_Pex = 0
     b_Pex = 0.2
     if error_x <= a_Pex:
         return 0
     elif error_x >= a_Pex and error_x <= b_Pex:
         return (error_x - a_Pex) / (b_Pex - a_Pex)
     elif error_x >= b_Pex:
-        return 1       
-
+        return 1
+# funciones eY -----------------------------------------------
+def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
+    a_Nex = -0.2
+    b_Nex = 0
+    if error_x <= a_Nex:
+        return 1
+    elif error_x > a_Nex and error_x <= b_Nex:
+        return (b_Nex - error_x) / (b_Nex - a_Nex)
+    else:
+        return 0
+def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
+    a_Zex = -0.15134
+    b_Zex = 0
+    d_Zex = 0.15134
+    if error_x >= a_Zex and error_x <= b_Zex:
+        return (error_x - a_Zex) / (b_Zex - a_Zex)
+    elif error_x >= b_Zex and error_x <= d_Zex:
+        return (error_x - d_Zex) / (b_Zex - d_Zex)
+    else:
+        return 0
+def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
+    a_Pex = 0
+    b_Pex = 0.2
+    if error_x <= a_Pex:
+        return 0
+    elif error_x >= a_Pex and error_x <= b_Pex:
+        return (error_x - a_Pex) / (b_Pex - a_Pex)
+    elif error_x >= b_Pex:
+        return 1
 # Controlador difuso basado en las reglas
 def controlador_difuso(delta, x, y):
     delta_fuzz = pertenencia_angular(delta)
