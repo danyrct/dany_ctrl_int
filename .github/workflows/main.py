@@ -7,6 +7,7 @@ def calcular_delta(y, x):
     return math.atan2(y, x)
 
 # funciones de membresía control difuso
+# entradas
 #funciones eD -----------------------------------------------
 def control_errdN(error_d):
     a_Ned = -1
@@ -66,84 +67,91 @@ def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
     elif error_x >= b_Pex:
         return 1
 # funciones eY -----------------------------------------------
-def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
-    a_Nex = -0.2
-    b_Nex = 0
-    if error_x <= a_Nex:
+def control_erryN(error_y):  # funcion saturación de N de eY en Fctrl
+    a_Ney = -0.2
+    b_Ney = 0
+    if error_y <= a_Ney:
         return 1
-    elif error_x > a_Nex and error_x <= b_Nex:
-        return (b_Nex - error_x) / (b_Nex - a_Nex)
+    elif error_y > a_Ney and error_y <= b_Ney:
+        return (b_Ney - error_y) / (b_Ney - a_Ney)
     else:
         return 0
-def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
-    a_Zex = -0.15134
-    b_Zex = 0
-    d_Zex = 0.15134
-    if error_x >= a_Zex and error_x <= b_Zex:
-        return (error_x - a_Zex) / (b_Zex - a_Zex)
-    elif error_x >= b_Zex and error_x <= d_Zex:
-        return (error_x - d_Zex) / (b_Zex - d_Zex)
+def control_erryZ(error_y):  # funcion triangular de Z de eY en Fctrl
+    a_Zey = -0.15
+    b_Zey = 0
+    d_Zey = 0.15
+    if error_y >= a_Zey and error_y <= b_Zey:
+        return (error_y - a_Zey) / (b_Zey - a_Zey)
+    elif error_y >= b_Zey and error_y <= d_Zey:
+        return (error_y - d_Zey) / (b_Zey - d_Zey)
     else:
         return 0
-def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
-    a_Pex = 0
-    b_Pex = 0.2
-    if error_x <= a_Pex:
+def control_erryP(error_y):  # funcion saturacion de P de eY en Fctrl
+    a_Pey = 0
+    b_Pey = 0.2
+    if error_y <= a_Pey:
         return 0
-    elif error_x >= a_Pex and error_x <= b_Pex:
-        return (error_x - a_Pex) / (b_Pex - a_Pex)
-    elif error_x >= b_Pex:
+    elif error_y >= a_Pey and error_y <= b_Pey:
+        return (error_y - a_Pey) / (b_Pey - a_Pey)
+    elif error_y >= b_Pey:
         return 1
-# Controlador difuso basado en las reglas
-def controlador_difuso(delta, x, y):
-    delta_fuzz = pertenencia_angular(delta)
-    x_fuzz = pertenencia_x(x)
-    y_fuzz = pertenencia_y(y)
-
-    # Inicialización de las salidas
-    v = 0  # Velocidad
-    w = 0  # Ángulo
-
-    # Implementación de las reglas difusas (basadas en las reglas que proporcionaste)
-    # reglas reglas min max etc
-    return v, w
-
-
-# Función para calcular los errores
-def calcular_errores(x_ref, y_ref, x_actual, y_actual):
-    error_x = x_ref - x_actual
-    error_y = y_ref - y_actual
-    delta = calcular_delta(error_y, error_x)
-    return error_x, error_y, delta
-
-
-# Bucle principal para controlar el coche
-def main():
-    # Valores de referencia (el punto objetivo donde debe ir el coche)
-    x_ref = 0.3
-    y_ref = 0.3
-
-    while True:
-        # Valores actuales simulados (podemos reemplazarlos con lecturas de sensores)
-        x_actual = 0.2
-        y_actual = 0.25
-        # Calcular errores (error en X, error en Y, y el ángulo Delta)
-        error_x, error_y, delta = calcular_errores(x_ref, y_ref, x_actual,
-                                                   y_actual)
-        # Mostrar los errores (equivalente a los "display" de Simulink)
-        print(
-            f"Error X1: {error_x:.2f}, Error Y1: {error_y:.2f}, Error Delta: {delta:.2f}"
-        )
-        # Aplicar el controlador difuso
-        v, w = controlador_difuso(delta, error_x, error_y)
-        # Imprimir las salidas del controlador (velocidad y ángulo)
-        print(f"Velocidad (V): {v:.2f}, Angular (W): {w:.2f}")
-        # Aquí puedes añadir el control de motores según las salidas V y W para mover el coche
-
-        # Esperar un micro segundo antes de la siguiente iteración
-        time.sleep(0.1)
-
-
-# Ejecutar el programa
-if __name__ == "__main__":
-    main()
+        # salidas
+# funciones V -----------------------------------------------
+def control_errvN(error_v):  # funcion saturación de N de V en Fctrl
+    a_Nv = -0.02
+    b_Nv = 0
+    if error_v <= a_Nv:
+        return 1
+    elif error_v > a_Nv and error_v <= b_Nv:
+        return (b_Nv - error_v) / (b_Nv - a_Nv)
+    else:
+        return 0
+def control_errvZ(error_v):  # funcion triangular de Z de v en Fctrl
+    a_Zv = -0.015
+    b_Zv = 0
+    d_Zv = 0.015
+    if error_y >= a_Zey and error_y <= b_Zey:
+        return (error_y - a_Zey) / (b_Zey - a_Zey)
+    elif error_y >= b_Zey and error_y <= d_Zey:
+        return (error_y - d_Zey) / (b_Zey - d_Zey)
+    else:
+        return 0
+def control_errvP(error_v):  # funcion saturacion de P de v en Fctrl
+    a_Pv = 0
+    b_Pv = 0.02
+    if error_v <= a_Pv:
+        return 0
+    elif error_v >= a_Pv and error_v <= b_Pv:
+        return (error_v - a_Pv) / (b_Pv - a_Pv)
+    elif error_v >= b_Pv:
+        return 1
+# funciones W -----------------------------------------------
+def control_errwN(error_w):  # funcion saturación de N de W en Fctrl
+    a_Nw = -0.35
+    b_Nw = 0
+    if error_w <= a_Nw:
+        return 1
+    elif error_w > a_Nw and error_w <= b_Nw:
+        return (b_Nw - error_w) / (b_Nw - a_Nw)
+    else:
+        return 0
+def control_errwZ(error_w):  # funcion triangular de Z de W en Fctrl
+    a_Zw = -0.3
+    b_Zw = 0
+    d_Zw = 0.3
+    if error_w >= a_Zw and error_w <= b_Zw:
+        return (error_w - a_Zw) / (b_Zw - a_Zw)
+    elif error_w >= b_Zw and error_w <= d_Zw:
+        return (error_w - d_Zw) / (b_Zw - d_Zw)
+    else:
+        return 0
+def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
+    a_Pw = 0
+    b_Pw = 0.35
+    if error_w <= a_Pw:
+        return 0
+    elif error_w >= a_Pw and error_w <= b_Pw:
+        return (error_w - a_Pw) / (b_Pw - a_Pw)
+    elif error_w >= b_Pw:
+        return 1
+# Reglas de control difuso ********************************************************
