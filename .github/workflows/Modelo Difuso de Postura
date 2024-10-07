@@ -1,3 +1,6 @@
+import machine  # Para manejar hardware como pines GPIO
+import time     # Para funciones de temporización
+
 class ModeloDifusoPostura:
     def __init__(self):
         self.inputs = {
