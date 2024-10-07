@@ -1,0 +1,90 @@
+class ModeloDifusoPostura:
+    def __init__(self):
+        self.inputs = {
+            'V': [-0.1, 0.1],
+            'W': [-5, 5],
+            'th': [-4, 4],
+            'CoordX': [-0.5, 0.5],
+            'CoordY': [-0.5, 0.5]
+        }
+        self.outputs = {
+            'xp': [-0.1, 0.1],
+            'yp': [-0.1, 0.1],
+            'thp': [-5, 5]
+        }
+        self.rules = [
+            (3, 0, 0, 3, 0, 3, 0, 0),
+            (3, 0, 0, 1, 0, 1, 0, 0),
+            (2, 0, 0, 0, 0, 2, 2, 0),
+            (3, 0, 0, 0, 3, 0, 3, 0),
+            (3, 0, 0, 0, 1, 0, 1, 0),
+            (0, 1, 0, 0, 0, 0, 0, 1),
+            (0, 2, 0, 0, 0, 0, 0, 2),
+            (0, 3, 0, 0, 0, 0, 0, 3)
+        ]
+
+    def fuzzify(self, input_name, value):
+        if input_name == 'V':
+            if value < -0.035:
+                return 'N'
+            elif -0.035 <= value <= 0.035:
+                return 'Z'
+            else:
+                return 'P'
+        elif input_name == 'W':
+            if value < -1:
+                return 'N'
+            elif -1 <= value <= 1:
+                return 'Z'
+            else:
+                return 'P'
+        elif input_name == 'th':
+            if value < -1:
+                return 'N'
+            elif -1 <= value <= 1:
+                return 'Z'
+            else:
+                return 'P'
+        elif input_name == 'CoordX':
+            if value < -0.05:
+                return 'N'
+            elif -0.05 <= value <= 0.05:
+                return 'Z'
+            else:
+                return 'P'
+        elif input_name == 'CoordY':
+            if value < -0.05:
+                return 'N'
+            elif -0.05 <= value <= 0.05:
+                return 'Z'
+            else:
+                return 'P'
+
+    def apply_rules(self, fuzzified_inputs):
+        results = {'xp': 0, 'yp': 0, 'thp': 0}
+        for rule in self.rules:
+            if all(fuzzified_inputs[i] == rule[i] for i in range(5)):
+                results['xp'] += rule
+                results['yp'] += rule
+                results['thp'] += rule
+        return results
+
+    def defuzzify(self, output_name, value):
+        if output_name == 'xp':
+            return value * 0.035
+        elif output_name == 'yp':
+            return value * 0.035
+        elif output_name == 'thp':
+            return value * 1.4
+
+    def compute(self, inputs):
+        fuzzified_inputs = {name: self.fuzzify(name, value) for name, value in inputs.items()}
+        rule_results = self.apply_rules(fuzzified_inputs)
+        defuzzified_outputs = {name: self.defuzzify(name, value) for name, value in rule_results.items()}
+        return defuzzified_outputs
+
+# Ejemplo de uso
+#modelo = ModeloDifusoPostura()
+#inputs = {'V': 0.02, 'W': 1.5, 'th': -0.5, 'CoordX': 0.1, 'CoordY': -0.1}
+#outputs = modelo.compute(inputs)
+#print(outputs)
