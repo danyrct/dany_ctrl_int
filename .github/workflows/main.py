@@ -1,7 +1,5 @@
 import math
 import time
-
-
 # Función atan2 para calcular el error angular (Delta)
 def calcular_delta(y, x):
     return math.atan2(y, x)
@@ -154,4 +152,63 @@ def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
         return (error_w - a_Pw) / (b_Pw - a_Pw)
     elif error_w >= b_Pw:
         return 1
+
+# Reglas de control difuso basadas en las funciones de membresía
+def aplicar_reglas_fuzzy(error_x, error_y, delta):
+    # Calcular valores de funciones de membresía
+    mu_exN = control_errxN(error_x)
+    mu_exZ = control_errxZ(error_x)
+    mu_exP = control_errxP(error_x)
+
+    mu_eyN = control_erryN(error_y)
+    mu_eyZ = control_erryZ(error_y)
+    mu_eyP = control_erryP(error_y)
+
+    mu_dN = control_errdN(delta)
+    mu_dZ = control_errdZ(delta)
+    mu_dP = control_errdP(delta)
+
+    # Aplicar regla 1: Si Delta (Error del ángulo) es P, entonces W es P
+    if mu_dP > 0:
+        W = mu_dP  # Aquí W sigue la función P si Delta es P
+    else:
+        W = 0
+
+    # Aplicar regla 2: Si Delta (Error del ángulo) es Z, entonces V es P y W es Z
+    if mu_dZ > 0:
+        V = mu_dZ * 1  # Aquí V es proporcional a la membresía de Z
+        W = mu_dZ * 1
+    else:
+        V = 0
+
+    # Aplicar regla 3: Si Delta (Error del ángulo) es N, entonces W es N
+    if mu_dN > 0:
+        W = mu_dN  # Aquí W sigue la función N si Delta es N
+
+    # Aplicar regla 4: Si X es Z y Y es Z, entonces V es Z
+    if mu_exZ > 0 and mu_eyZ > 0:
+        V = min(mu_exZ, mu_eyZ)  # La intersección de ambas pertenencias define V
+
+    # Aplicar regla 5: Si X es N y Y es Z, entonces V es Z
+    if mu_exN > 0 and mu_eyZ > 0:
+        V = min(mu_exN, mu_eyZ)
+
+    return V, W
+# Función para generar datos de prueba
+def generar_pruebas():
+    # Ejemplos de valores de prueba
+    pruebas = [
+        {"error_x": 0.1, "error_y": -0.1, "delta": 0.5},  # Caso 1
+        {"error_x": -0.1, "error_y": 0.1, "delta": -0.2}, # Caso 2
+        {"error_x": 0.05, "error_y": 0.05, "delta": 0.0}, # Caso 3
+        {"error_x": -0.2, "error_y": -0.2, "delta": -0.5}, # Caso 4
+        {"error_x": 0.2, "error_y": 0.2, "delta": 1.0},   # Caso 5
+    ]
+    return pruebas
+
+# Probar el controlador difuso con estos valores
+pruebas = generar_pruebas()
+for prueba in pruebas:
+    V, W = aplicar_reglas_fuzzy(prueba["error_x"], prueba["error_y"], prueba["delta"])
+    print(f"Para error_x: {prueba['error_x']}, error_y: {prueba['error_y']}, delta: {prueba['delta']} => V: {V}, W: {W}")
 # Reglas de control difuso ********************************************************
