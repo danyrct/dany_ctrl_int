@@ -1,0 +1,26 @@
+import math
+
+def calculo_delta(x, y):
+    edelta = math.atan2(y, x)
+    return edelta
+
+def main():
+    x = 0.0
+    y = 0.0
+    xreal = 0.0373
+    yreal = 0.0373
+
+    x = float(input("Dame el valor de X: "))
+    y = float(input("Dame el valor de Y: "))
+
+    edelta = calculo_delta(x, y)
+    print("El valor de Delta es: {:.6f}".format(edelta))
+
+    eX = x - xreal
+    eY = y - yreal
+
+    print("El error de x es: {:.6f}".format(eX))
+    print("El error de y es: {:.6f}".format(eY))
+
+if __name__ == "__main__":
+    main()
