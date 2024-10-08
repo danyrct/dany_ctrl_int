@@ -154,46 +154,48 @@ def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
         return 1
 
 # Reglas de control difuso basadas en las funciones de membresía
-def aplicar_reglas_fuzzy(error_x, error_y, delta):
-    # Calcular valores de funciones de membresía
-    mu_exN = control_errxN(error_x)
-    mu_exZ = control_errxZ(error_x)
-    mu_exP = control_errxP(error_x)
-
-    mu_eyN = control_erryN(error_y)
-    mu_eyZ = control_erryZ(error_y)
-    mu_eyP = control_erryP(error_y)
-
-    mu_dN = control_errdN(delta)
-    mu_dZ = control_errdZ(delta)
-    mu_dP = control_errdP(delta)
-
-    # Aplicar regla 1: Si Delta (Error del ángulo) es P, entonces W es P
-    if mu_dP > 0:
-        W = mu_dP  # Aquí W sigue la función P si Delta es P
-    else:
-        W = 0
-
-    # Aplicar regla 2: Si Delta (Error del ángulo) es Z, entonces V es P y W es Z
-    if mu_dZ > 0:
-        V = mu_dZ * 1  # Aquí V es proporcional a la membresía de Z
-        W = mu_dZ * 1
-    else:
-        V = 0
-
-    # Aplicar regla 3: Si Delta (Error del ángulo) es N, entonces W es N
-    if mu_dN > 0:
-        W = mu_dN  # Aquí W sigue la función N si Delta es N
-
-    # Aplicar regla 4: Si X es Z y Y es Z, entonces V es Z
-    if mu_exZ > 0 and mu_eyZ > 0:
-        V = min(mu_exZ, mu_eyZ)  # La intersección de ambas pertenencias define V
-
-    # Aplicar regla 5: Si X es N y Y es Z, entonces V es Z
-    if mu_exN > 0 and mu_eyZ > 0:
-        V = min(mu_exN, mu_eyZ)
-
-    return V, W
+def reglas_control_w(error_x,error_y,error_d,error_v,error_w)
+    # calcular valores de reglas para W
+    pw1 = min(control_errdP(error_d)) # regla 1
+    zw2 = min(control_errdZ(error_d)) # regla 2
+    nw3 = min(control_errdN(error_d)) # regla 3
+    zw4 = min(control_errxZ(error_x), control_erryZ(error_y)) # regla 4
+    zw5 = min(control_errxN(error_x), control_erryZ(error_y)) # regla 5
+    # defuzzificacion =========================================
+    # w - velocidad angular
+    b_pw1 = 0.35
+    b_zw2 = 0.0001
+    b_nw3 = -0.35
+    b_zw4 = 0.0001
+    b_zw5 = 0.0001
+    denom_w = pw1 + zw2 + nw3 + zw4 + zw5
+    if denom_w < 0.00001:
+        return 0
+    numer_w = (pw1*b_pw1 + zw2*b_zw2 + nw3*b_nw3 + zw4*b_zw4 + zw5*b_zw5)
+    if numer_w < 0.00001:
+        return 0
+    W_f = numer_w/denom_w
+    return W_f
+    
+def reglas_control_v(error_x,error_y,error_d,error_v,error_w)
+    # calcular valores de reglas para V
+    pv2 = min(control_errdZ(error_d)) # regla 2
+    zv4 = min(control_errxZ(error_x), control_erryZ(error_y)) # regla 4
+    nv5 = min(control_errxN(error_x), control_erryZ(error_y)) # regla 5
+    # defuzzificacion
+    # v - velocidad lineal
+    b_pv2 = 0.02
+    b_zv4 = 0.0001
+    b_nv5 = -0.02
+    denom_v = pv2 + zv4 + nv5
+    if denom_v < 0.00001:
+        return 0
+    numer_v = (pv2*b_pv2 + zv4*b_zv4 + nv5*b_nv5)
+    if numer_v < 0.00001:
+        return 0
+    V_f = numer_w/denom_w
+    return V_f
+    
 # Función para generar datos de prueba
 def generar_pruebas():
     # Ejemplos de valores de prueba
