@@ -1,8 +1,5 @@
 import math
 import time
-# Función atan2 para calcular el error angular (Delta)
-def calcular_delta(y, x):
-    return math.atan2(y, x)
 
 # funciones de membresía control difuso
 # entradas
@@ -153,7 +150,7 @@ def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
     elif error_w >= b_Pw:
         return 1
 
-# Reglas de control difuso basadas en las funciones de membresía
+# reglas de control difuso basadas en las funciones de membresía -----------------------------------------------
 def reglas_control_w(error_x,error_y,error_d,error_v,error_w)
     # calcular valores de reglas para W
     pw1 = min(control_errdP(error_d)) # regla 1
@@ -195,22 +192,4 @@ def reglas_control_v(error_x,error_y,error_d,error_v,error_w)
         return 0
     V_f = numer_w/denom_w
     return V_f
-    
-# Función para generar datos de prueba
-def generar_pruebas():
-    # Ejemplos de valores de prueba
-    pruebas = [
-        {"error_x": 0.1, "error_y": -0.1, "delta": 0.5},  # Caso 1
-        {"error_x": -0.1, "error_y": 0.1, "delta": -0.2}, # Caso 2
-        {"error_x": 0.05, "error_y": 0.05, "delta": 0.0}, # Caso 3
-        {"error_x": -0.2, "error_y": -0.2, "delta": -0.5}, # Caso 4
-        {"error_x": 0.2, "error_y": 0.2, "delta": 1.0},   # Caso 5
-    ]
-    return pruebas
 
-# Probar el controlador difuso con estos valores
-pruebas = generar_pruebas()
-for prueba in pruebas:
-    V, W = aplicar_reglas_fuzzy(prueba["error_x"], prueba["error_y"], prueba["delta"])
-    print(f"Para error_x: {prueba['error_x']}, error_y: {prueba['error_y']}, delta: {prueba['delta']} => V: {V}, W: {W}")
-# Reglas de control difuso ********************************************************
