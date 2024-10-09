@@ -226,15 +226,21 @@ def main():
 
     eX = x - xreal
     eY = y - yreal
-
     print("El error de x es: {:.6f}".format(eX))
     print("El error de y es: {:.6f}".format(eY))
 
-    V = reglas_control_v(eX, eY, edelta)
-    W = reglas_control_w(eX, eY, edelta)
+    Vcalc = reglas_control_v(eX, eY, edelta)
+    Wcalc = reglas_control_w(eX, eY, edelta)
+    print("Velocidad lineal V: {:.6f}".format(Vcalc))
+    print("Velocidad angular W: {:.6f}".format(Wcalc))
 
-    print("Velocidad lineal V: {:.6f}".format(V))
-    print("Velocidad angular W: {:.6f}".format(W))
+    radio=0.0162
+    long=0.15
+    Vgain=3
+    Wgain=7
+
+    inp1_modvelr = (long/radio)*(Wgain*Wcalc)
+    #inp2_modvelr = (Vgain*Vcalc)*
 
 if __name__ == "__main__":
     main()
