@@ -151,7 +151,7 @@ def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
         return 1
 
 # reglas de control difuso basadas en las funciones de membresía -----------------------------------------------
-def reglas_control_w(error_x,error_y,error_d,error_v,error_w)
+def reglas_control_w(error_x,error_y,error_d)
     # calcular valores de reglas para W
     pw1 = min(control_errdP(error_d)) # regla 1
     zw2 = min(control_errdZ(error_d)) # regla 2
@@ -174,7 +174,7 @@ def reglas_control_w(error_x,error_y,error_d,error_v,error_w)
     W_f = numer_w/denom_w
     return W_f
     
-def reglas_control_v(error_x,error_y,error_d,error_v,error_w)
+def reglas_control_v(error_x,error_y,error_d)
     # calcular valores de reglas para V
     pv2 = min(control_errdZ(error_d)) # regla 2
     zv4 = min(control_errxZ(error_x), control_erryZ(error_y)) # regla 4
@@ -193,3 +193,32 @@ def reglas_control_v(error_x,error_y,error_d,error_v,error_w)
     V_f = numer_w/denom_w
     return V_f
 
+# calculo de delta -----------------------------------------------
+def calculo_delta(x, y):
+    edelta = math.atan2(y, x)
+    return edelta
+
+# main entradas y con errores inventados -----------------------------------------------
+def main():
+    x = 0.0
+    y = 0.0
+    xreal = 0.0373
+    yreal = 0.0373
+
+    x = float(input("Dame el valor de X: "))
+    y = float(input("Dame el valor de Y: "))
+
+    edelta = calculo_delta(x, y)
+    print("El valor de Delta es: {:.6f}".format(edelta))
+
+    eX = x - xreal
+    eY = y - yreal
+
+    print("El error de x es: {:.6f}".format(eX))
+    print("El error de y es: {:.6f}".format(eY))
+
+    V = reglas_control_v(eX,eY,edelta)
+    W = reglas_control_w(eX,eY,edelta)
+
+if __name__ == "__main__":
+    main()
