@@ -219,38 +219,33 @@ def calculo_delta(V, W):
 
 # main entradas y con errores inventados -----------------------------------------------
 def main():
-    x = 0.0
-    y = 0.0
-    xreal = 0.0373
-    yreal = 0.0373
+    
+    xreal = 0.1434
+    yreal = -0.099
+    threal = -0.0008
 
     x = float(input("Dame el valor de X: "))
     y = float(input("Dame el valor de Y: "))
-
-    edelta = calculo_delta(x, y)
-    print("El valor de Delta es: {:.6f}".format(edelta))
-
+    print("\n")
+    
     eX = x - xreal
     eY = y - yreal
+
+    delta = calculo_delta(eX, eY)
+    print("El valor de Delta es: {:.6f}".format(delta))
+    print("\n")
+    edelta = delta - threal
+
     print("El error de x es: {:.6f}".format(eX))
     print("El error de y es: {:.6f}".format(eY))
+    print("El error de theta es: {:.6f}".format(edelta))
+    print("\n")
+    
+    V = reglas_control_v(eX, eY, edelta)
+    W = reglas_control_w(eX, eY, edelta)
 
-    Vcalc = reglas_control_v(eX, eY, edelta)
-    Wcalc = reglas_control_w(eX, eY, edelta)
-    print("Velocidad lineal V: {:.6f}".format(Vcalc))
-    print("Velocidad angular W: {:.6f}".format(Wcalc))
+    print("Velocidad lineal V: {:.6f}".format(V))
+    print("Velocidad angular W: {:.6f}".format(W))
 
-    radio = 0.0162
-    long = 0.15
-    Vgain = 3
-    Wgain = 7
-    fact1 = 1/radio
-    fact2 = long/radio
-
-    inp1_modvelr = fact1*Vgain
-    inp2_modvelr = fact2*Wgain
-
-    [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
-    [xp, yp, thp] = mod_post(Vcalc, Wcalc, theta)
 if __name__ == "__main__":
     main()
