@@ -211,6 +211,12 @@ def calculo_delta(x, y):
     edelta = math.atan2(y, x)
     return edelta
 
+# modelo de velocidad de ruedas -----------------------------------------------
+def calculo_delta(V, W):
+    fi1 = -V-W
+    fi2 = V-W
+    return fi1, fi2
+
 # main entradas y con errores inventados -----------------------------------------------
 def main():
     x = 0.0
@@ -234,13 +240,17 @@ def main():
     print("Velocidad lineal V: {:.6f}".format(Vcalc))
     print("Velocidad angular W: {:.6f}".format(Wcalc))
 
-    radio=0.0162
-    long=0.15
-    Vgain=3
-    Wgain=7
+    radio = 0.0162
+    long = 0.15
+    Vgain = 3
+    Wgain = 7
+    fact1 = 1/radio
+    fact2 = long/radio
 
-    inp1_modvelr = (long/radio)*(Wgain*Wcalc)
-    #inp2_modvelr = (Vgain*Vcalc)*
+    inp1_modvelr = fact1*Vgain
+    inp2_modvelr = fact2*Wgain
 
+    [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
+    [xp, yp, thp] = mod_post(Vcalc, Wcalc, theta)
 if __name__ == "__main__":
     main()
