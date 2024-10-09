@@ -212,14 +212,20 @@ def calculo_delta(x, y):
     return edelta
 
 # modelo de velocidad de ruedas -----------------------------------------------
-def calculo_delta(V, W):
+def mod_velr(V, W):
     fi1 = -V-W
     fi2 = V-W
     return fi1, fi2
 
+# modelo de postura -----------------------------------------------
+def mod_post(Vcalc, Wcalc, theta):
+    xp = V*math.cos(theta)
+    yp = V*math.sin(theta)
+    thp = theta
+    return xp, yp, thp
+
 # main entradas y con errores inventados -----------------------------------------------
 def main():
-    
     xreal = 0.1434
     yreal = -0.099
     threal = -0.0008
@@ -230,12 +236,10 @@ def main():
     
     eX = x - xreal
     eY = y - yreal
-
     delta = calculo_delta(eX, eY)
     print("El valor de Delta es: {:.6f}".format(delta))
     print("\n")
     edelta = delta - threal
-
     print("El error de x es: {:.6f}".format(eX))
     print("El error de y es: {:.6f}".format(eY))
     print("El error de theta es: {:.6f}".format(edelta))
@@ -243,9 +247,23 @@ def main():
     
     V = reglas_control_v(eX, eY, edelta)
     W = reglas_control_w(eX, eY, edelta)
-
     print("Velocidad lineal V: {:.6f}".format(V))
     print("Velocidad angular W: {:.6f}".format(W))
+
+    radio = 0.0162
+    long = 0.15
+    Vgain = 3
+    Wgain = 7
+    fact1 = 1/radio
+    fact2 = long/radio
+
+    inp1_modvelr = fact1*Vgain
+    inp2_modvelr = fact2*Wgain
+
+    [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
+    [xp, yp, thp] = mod_post(Vcalc, Wcalc, theta)
+
+    
 
 if __name__ == "__main__":
     main()
