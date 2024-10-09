@@ -179,10 +179,10 @@ def reglas_control_w(error_x, error_y, error_d):
     b_zw4 = 0.0001
     b_zw5 = 0.0001
     denom_w = pw1 + zw2 + nw3 + zw4 + zw5
-    if denom_w < 0.00001:
+    if denom_w < 0.00000001:
         return 0
     numer_w = (pw1 * b_pw1 + zw2 * b_zw2 + nw3 * b_nw3 + zw4 * b_zw4 + zw5 * b_zw5)
-    if numer_w < 0.00001:
+    if numer_w < 0.00000001:
         return 0
     W_f = numer_w / denom_w
     return W_f
@@ -198,10 +198,10 @@ def reglas_control_v(error_x, error_y, error_d):
     b_zv4 = 0.0001
     b_nv5 = -0.02
     denom_v = pv2 + zv4 + nv5
-    if denom_v < 0.00001:
+    if denom_v < 0.00000001:
         return 0
     numer_v = (pv2 * b_pv2 + zv4 * b_zv4 + nv5 * b_nv5)
-    if numer_v < 0.00001:
+    if numer_v < 0.00000001:
         return 0
     V_f = numer_v / denom_v
     return V_f
@@ -219,8 +219,8 @@ def mod_velr(V, W):
 
 # modelo de postura -----------------------------------------------
 def mod_post(Vcalc, Wcalc, theta):
-    xp = V*math.cos(theta)
-    yp = V*math.sin(theta)
+    xp = Vcalc*math.cos(theta)
+    yp = Vcalc*math.sin(theta)
     thp = theta
     return xp, yp, thp
 
@@ -245,10 +245,10 @@ def main():
     print("El error de theta es: {:.6f}".format(edelta))
     print("\n")
     
-    V = reglas_control_v(eX, eY, edelta)
-    W = reglas_control_w(eX, eY, edelta)
-    print("Velocidad lineal V: {:.6f}".format(V))
-    print("Velocidad angular W: {:.6f}".format(W))
+    Vcalc = reglas_control_v(eX, eY, edelta)
+    Wcalc = reglas_control_w(eX, eY, edelta)
+    print("Velocidad lineal V: {:.6f}".format(Vcalc))
+    print("Velocidad angular W: {:.6f}".format(Wcalc))
 
     radio = 0.0162
     long = 0.15
@@ -261,9 +261,13 @@ def main():
     inp2_modvelr = fact2*Wgain
 
     [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
-    [xp, yp, thp] = mod_post(Vcalc, Wcalc, theta)
+    [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
 
+    print("Velocidad rueda fi1: {:.6f}".format(fi1))
+    print("Velocidad rueda fi1: {:.6f}".format(fi2))
+    print("Velocidad en X: {:.6f}".format(xp))
+    print("Velocidad en Y: {:.6f}".format(yp))
+    print("Velocidad ang, theta: {:.6f}".format(thp))
     
-
 if __name__ == "__main__":
     main()
