@@ -1,0 +1,205 @@
+# funciones de membresía modelo de postura difuso
+# entradas
+# funciones V postura -----------------------------------------------
+def postura_vcalcN(vel_calc):  # funcion saturación de N de V en Fpost
+    a_Nvp = -0.035
+    b_Nvp = 0
+    if vel_calc <= a_Nvp:
+        return 1
+    elif vel_calc > a_Nvp and vel_calc <= b_Nvp:
+        return (b_Nvp - vel_calc) / (b_Nvp - a_Nvp)
+    else:
+        return 0
+
+def post_vcalcZ(vel_calc):  # funcion triangular de Z de v en Fpost
+    a_Zvp = -0.035
+    b_Zvp = 0
+    d_Zvp = 0.035
+    if vel_calc >= a_Zvp and vel_calc <= b_Zvp:
+        return (vel_calc - a_Zvp) / (b_Zvp - a_Zvp)
+    elif vel_calc >= b_Zvp and vel_calc <= d_Zvp:
+        return (vel_calc - d_Zvp) / (b_Zvp - d_Zvp)
+    else:
+        return 0
+
+def post_vcalcP(vel_calc):  # funcion saturacion de P de v en Fpost
+    a_Pvp = 0
+    b_Pvp = 0.035
+    if vel_calc <= a_Pvp:
+        return 0
+    elif vel_calc >= a_Pvp and vel_calc <= b_Pvp:
+        return (vel_calc - a_Pvp) / (b_Pvp - a_Pvp)
+    elif vel_calc >= b_Pvp:
+        return 1
+
+# funciones W -----------------------------------------------
+def post_wcalcN(w_calc):  # funcion saturación de N de W en Fctrl
+    a_Nwp = -1
+    b_Nwp = 0
+    if w_calc <= a_Nwp:
+        return 1
+    elif w_calc > a_Nwp and w_calc <= b_Nwp:
+        return (b_Nwp - w_calc) / (b_Nwp - a_Nwp)
+    else:
+        return 0
+
+def post_wcalcZ(w_calc):  # funcion triangular de Z de W en Fctrl
+    a_Zwp = -1.4
+    b_Zwp = 0
+    d_Zwp = 1.4
+    if w_calc >= a_Zwp and w_calc <= b_Zwp:
+        return (w_calc - a_Zwp) / (b_Zwp - a_Zwp)
+    elif w_calc >= b_Zwp and w_calc <= d_Zwp:
+        return (w_calc - d_Zwp) / (b_Zwp - d_Zwp)
+    else:
+        return 0
+
+def post_wcalcP(w_calc):  # funcion saturacion de P de W en Fctrl
+    a_Pwp = 0
+    b_Pwp = 1
+    if w_calc <= a_Pwp:
+        return 0
+    elif w_calc >= a_Pwp and w_calc <= b_Pwp:
+        return (w_calc - a_Pwp) / (b_Pwp - a_Pwp)
+    elif w_calc >= b_Pwp:
+        return 1
+
+# salidas
+# funciones eD -----------------------------------------------
+def control_errdN(error_d):
+    a_Ned = -1
+    b_Ned = 0
+    if error_d <= a_Ned:
+        return 1
+    elif error_d > a_Ned and error_d <= b_Ned:
+        return (b_Ned - error_d) / (b_Ned - a_Ned)
+    else:
+        return 0
+
+def control_errdZ(error_d):
+    a_Zed = -1.5
+    b_Zed = 0
+    d_Zed = 1.5
+    if error_d >= a_Zed and error_d <= b_Zed:
+        return (error_d - a_Zed) / (b_Zed - a_Zed)
+    elif error_d >= b_Zed and error_d <= d_Zed:
+        return (error_d - d_Zed) / (b_Zed - d_Zed)
+    else:
+        return 0
+
+def control_errdP(error_d):
+    a_Ped = 0
+    b_Ped = 1
+    if error_d <= a_Ped:
+        return 0
+    elif error_d >= a_Ped and error_d <= b_Ped:
+        return (error_d - a_Ped) / (b_Ped - a_Ped)
+    elif error_d >= b_Ped:
+        return 1
+
+# funciones eX -----------------------------------------------
+def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
+    a_Nex = -0.2
+    b_Nex = 0
+    if error_x <= a_Nex:
+        return 1
+    elif error_x > a_Nex and error_x <= b_Nex:
+        return (b_Nex - error_x) / (b_Nex - a_Nex)
+    else:
+        return 0
+
+def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
+    a_Zex = -0.15134
+    b_Zex = 0
+    d_Zex = 0.15134
+    if error_x >= a_Zex and error_x <= b_Zex:
+        return (error_x - a_Zex) / (b_Zex - a_Zex)
+    elif error_x >= b_Zex and error_x <= d_Zex:
+        return (error_x - d_Zex) / (b_Zex - d_Zex)
+    else:
+        return 0
+
+def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
+    a_Pex = 0
+    b_Pex = 0.2
+    if error_x <= a_Pex:
+        return 0
+    elif error_x >= a_Pex and error_x <= b_Pex:
+        return (error_x - a_Pex) / (b_Pex - a_Pex)
+    elif error_x >= b_Pex:
+        return 1
+
+# funciones eY -----------------------------------------------
+def control_erryN(error_y):  # funcion saturación de N de eY en Fctrl
+    a_Ney = -0.2
+    b_Ney = 0
+    if error_y <= a_Ney:
+        return 1
+    elif error_y > a_Ney and error_y <= b_Ney:
+        return (b_Ney - error_y) / (b_Ney - a_Ney)
+    else:
+        return 0
+
+def control_erryZ(error_y):  # funcion triangular de Z de eY en Fctrl
+    a_Zey = -0.15
+    b_Zey = 0
+    d_Zey = 0.15
+    if error_y >= a_Zey and error_y <= b_Zey:
+        return (error_y - a_Zey) / (b_Zey - a_Zey)
+    elif error_y >= b_Zey and error_y <= d_Zey:
+        return (error_y - d_Zey) / (b_Zey - d_Zey)
+    else:
+        return 0
+
+def control_erryP(error_y):  # funcion saturacion de P de eY en Fctrl
+    a_Pey = 0
+    b_Pey = 0.2
+    if error_y <= a_Pey:
+        return 0
+    elif error_y >= a_Pey and error_y <= b_Pey:
+        return (error_y - a_Pey) / (b_Pey - a_Pey)
+    elif error_y >= b_Pey:
+        return 1
+        
+# reglas de control difuso basadas en las funciones de membresía -----------------------------------------------
+def reglas_control_w(error_x, error_y, error_d):
+    # calcular valores de reglas para W
+    pw1 = control_errdP(error_d)  # regla 1
+    zw2 = control_errdZ(error_d)  # regla 2
+    nw3 = control_errdN(error_d)  # regla 3
+    zw4 = min(control_errxZ(error_x), control_erryZ(error_y))  # regla 4
+    zw5 = min(control_errxN(error_x), control_erryZ(error_y))  # regla 5
+    # defuzzificacion =========================================
+    # w - velocidad angular
+    b_pw1 = 0.35
+    b_zw2 = 0.0001
+    b_nw3 = -0.35
+    b_zw4 = 0.0001
+    b_zw5 = 0.0001
+    denom_w = pw1 + zw2 + nw3 + zw4 + zw5
+    if denom_w < 0.00001:
+        return 0
+    numer_w = (pw1 * b_pw1 + zw2 * b_zw2 + nw3 * b_nw3 + zw4 * b_zw4 + zw5 * b_zw5)
+    if numer_w < 0.00001:
+        return 0
+    W_f = numer_w / denom_w
+    return W_f
+
+def reglas_control_v(error_x, error_y, error_d):
+    # calcular valores de reglas para V
+    pv2 = control_errdZ(error_d)  # regla 2
+    zv4 = min(control_errxZ(error_x), control_erryZ(error_y))  # regla 4
+    nv5 = min(control_errxN(error_x), control_erryZ(error_y))  # regla 5
+    # defuzzificacion
+    # v - velocidad lineal
+    b_pv2 = 0.02
+    b_zv4 = 0.0001
+    b_nv5 = -0.02
+    denom_v = pv2 + zv4 + nv5
+    if denom_v < 0.00001:
+        return 0
+    numer_v = (pv2 * b_pv2 + zv4 * b_zv4 + nv5 * b_nv5)
+    if numer_v < 0.00001:
+        return 0
+    V_f = numer_v / denom_v
+    return V_f
