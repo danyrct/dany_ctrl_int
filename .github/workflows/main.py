@@ -225,12 +225,12 @@ def mod_post(Vcalc, Wcalc, theta):
     thp = theta
     return xp, yp, thp
     
-def integrar_todo(xp, yp, thp, fi1, fi2):
-    xcalc = sympy.integrate(xp)
-    ycalc = sympy.integrate(yp)
-    thcalc = sympy.integrate(thp)
-    fi1calc = sympy.integrate(fi1)
-    fi2calc = sympy.integrate(fi2)
+def integrar_todo(xp, yp, thp, fi1, fi2, step):
+    xcalc += xp * step
+    ycalc += yp * step
+    thcalc += thp * step
+    fi1calc += fi1 * step
+    fi2calc += fi2 * step
     return xcalc, ycalc, thcalc, fi1calc, fi2calc
     
 # main entradas y con errores inventados -----------------------------------------------
