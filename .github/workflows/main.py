@@ -1,5 +1,6 @@
 import math
 import time
+import sympy
 
 # funciones de membresía control difuso
 # entradas
@@ -223,7 +224,15 @@ def mod_post(Vcalc, Wcalc, theta):
     yp = Vcalc*math.sin(theta)
     thp = theta
     return xp, yp, thp
-
+    
+def integrar_todo(xp, yp, thp, fi1, fi2):
+    xcalc = sympy.integrate(xp)
+    ycalc = sympy.integrate(yp)
+    thcalc = sympy.integrate(thp)
+    fi1calc = sympy.integrate(fi1)
+    fi2calc = sympy.integrate(fi2)
+    return xcalc, ycalc, thcalc, fi1calc, fi2calc
+    
 # main entradas y con errores inventados -----------------------------------------------
 def main():
     xreal = 0.1434
@@ -268,6 +277,14 @@ def main():
     print("Velocidad en X: {:.6f}".format(xp))
     print("Velocidad en Y: {:.6f}".format(yp))
     print("Velocidad ang, theta: {:.6f}".format(thp))
+
+    [xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
+    
+    print("Posición rueda fi1: {:.6f}".format(fi1calc))
+    print("Posición rueda fi1: {:.6f}".format(fi2calc))
+    print("Posición en X: {:.6f}".format(xpcalc))
+    print("Posición en Y: {:.6f}".format(ypcalc))
+    print("Posición ang, theta: {:.6f}".format(thpcalc))
     
 if __name__ == "__main__":
     main()
