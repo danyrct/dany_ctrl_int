@@ -268,16 +268,22 @@ def main():
     print("El error de y es: {:.6f}".format(eY))
     print("El error de theta es: {:.6f}".format(edelta))
     print("\n")
+
+    Vgain = 3
+    Wgain = 7
     
-    Vcalc = reglas_control_v(edelta, eX, eY)
-    Wcalc = reglas_control_w(edelta, eX, eY)
+    Vdifuso = reglas_control_v(edelta, eX, eY)
+    Wdifuso = reglas_control_w(edelta, eX, eY)
+
+    Vcalc = Vdifuso*Vgain
+    Wcalc = Wdifuso*Wgain
+    
     print("Velocidad lineal V: {:.6f}".format(Vcalc))
     print("Velocidad angular W: {:.6f}".format(Wcalc))
 
     radio = 0.0162
     long = 0.15
-    Vgain = 3
-    Wgain = 7
+ 
     fact1 = 1/radio
     fact2 = long/radio
 
