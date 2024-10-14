@@ -268,8 +268,8 @@ def main():
     print("El error de theta es: {:.6f}".format(edelta))
     print("\n")
     
-    Vcalc = reglas_control_v(eX, eY, edelta)
-    Wcalc = reglas_control_w(eX, eY, edelta)
+    Vcalc = reglas_control_v(edelta, eX, eY)
+    Wcalc = reglas_control_w(edelta, eX, eY)
     print("Velocidad lineal V: {:.6f}".format(Vcalc))
     print("Velocidad angular W: {:.6f}".format(Wcalc))
 
