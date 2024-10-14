@@ -7,7 +7,7 @@ import sympy
 # funciones eD -----------------------------------------------
 
 def integrator(Xp):
-    T = 0.211
+    T = 0.236
     # Definir el intervalo de integración y la condición inicial
     tspan = [0, T]  # intervalo de tiempo (0 a 2.54 segundos)
     X0 = 0  # valor inicial de X en t = 0
@@ -249,9 +249,10 @@ def integrar_todo(xp, yp, thp, fi1, fi2):
 # main entradas y con errores inventados -----------------------------------------------
 
 def main():
-    xreal = 0.1434
-    yreal = -0.099
-    threal = -0.0008
+    xreal = 0.0013
+    yreal = 0.001681
+    threal = 0.9683
+
 
     x = float(input("Dame el valor de X: "))
     y = float(input("Dame el valor de Y: "))
@@ -287,7 +288,7 @@ def main():
     [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
 
     print("Velocidad rueda fi1: {:.6f}".format(fi1))
-    print("Velocidad rueda fi1: {:.6f}".format(fi2))
+    print("Velocidad rueda fi2: {:.6f}".format(fi2))
     print("Velocidad en X: {:.6f}".format(xp))
     print("Velocidad en Y: {:.6f}".format(yp))
     print("Velocidad ang, theta: {:.6f}".format(thp))
@@ -295,7 +296,7 @@ def main():
     [xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
     
     print("Posición rueda fi1: {:.6f}".format(fi1calc))
-    print("Posición rueda fi1: {:.6f}".format(fi2calc))
+    print("Posición rueda fi2: {:.6f}".format(fi2calc))
     print("Posición en X: {:.6f}".format(xcalc))
     print("Posición en Y: {:.6f}".format(ycalc))
     print("Posición ang, theta: {:.6f}".format(thcalc))
