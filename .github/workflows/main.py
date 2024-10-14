@@ -245,8 +245,9 @@ def integrar_todo(xp, yp, thp, fi1, fi2):
     fi1calc = integrator(fi1)
     fi2calc = integrator(fi2)
     return xcalc, ycalc, thcalc, fi1calc, fi2calc
-    
+
 # main entradas y con errores inventados -----------------------------------------------
+
 def main():
     xreal = 0.1434
     yreal = -0.099
@@ -279,8 +280,8 @@ def main():
     fact1 = 1/radio
     fact2 = long/radio
 
-    inp1_modvelr = fact1*Vgain
-    inp2_modvelr = fact2*Wgain
+    inp1_modvelr = fact1*Vgain*Vcalc
+    inp2_modvelr = fact2*Wgain*Wcalc
 
     [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
     [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
