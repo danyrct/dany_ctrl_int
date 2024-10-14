@@ -5,6 +5,19 @@ import sympy
 # funciones de membresía control difuso
 # entradas
 # funciones eD -----------------------------------------------
+
+def integrator(Xp):
+    T = 0.211
+    # Definir el intervalo de integración y la condición inicial
+    tspan = [0, T]  # intervalo de tiempo (0 a 2.54 segundos)
+    X0 = 0  # valor inicial de X en t = 0
+
+    # Definir la función de integración
+    t_final = tspan[-1]  # obtener el valor final de tiempo (2.54 en este caso)
+    X_final = X0 + Xp * t_final
+
+    return X_final
+    
 def control_errdN(error_d):
     a_Ned = -1
     b_Ned = 0
@@ -225,12 +238,12 @@ def mod_post(Vcalc, Wcalc, theta):
     thp = theta
     return xp, yp, thp
     
-def integrar_todo(xp, yp, thp, fi1, fi2, step):
-    xcalc += xp * step
-    ycalc += yp * step
-    thcalc += thp * step
-    fi1calc += fi1 * step
-    fi2calc += fi2 * step
+def integrar_todo(xp, yp, thp, fi1, fi2):
+    xcalc = integrator(xp)
+    ycalc = integrator(yp)
+    thcalc = integrator(thp)
+    fi1calc = integrator(fi1)
+    fi2calc = integrator(fi2)
     return xcalc, ycalc, thcalc, fi1calc, fi2calc
     
 # main entradas y con errores inventados -----------------------------------------------
