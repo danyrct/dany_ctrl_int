@@ -7,7 +7,7 @@ import sympy
 # funciones eD -----------------------------------------------
 
 def integrator(Xp):
-    T = 0.236
+    T = 0.193
     # Definir el intervalo de integración y la condición inicial
     tspan = [0, T]  # intervalo de tiempo (0 a 2.54 segundos)
     X0 = 0  # valor inicial de X en t = 0
@@ -249,9 +249,9 @@ def integrar_todo(xp, yp, thp, fi1, fi2):
 # main entradas y con errores inventados -----------------------------------------------
 
 def main():
-    xreal = 0.0013
-    yreal = 0.001681
-    threal = 0.9683
+    xreal = 0
+    yreal = 0
+    threal = 0.7921
 
 
     x = float(input("Dame el valor de X: "))
@@ -268,45 +268,36 @@ def main():
     print("El error de y es: {:.6f}".format(eY))
     print("El error de theta es: {:.6f}".format(edelta))
     print("\n")
-
     Vgain = 3
     Wgain = 7
     
-    Vdifuso = reglas_control_v(edelta, eX, eY)
-    Wdifuso = reglas_control_w(edelta, eX, eY)
-
-    Vcalc = Vdifuso*Vgain
-    Wcalc = Wdifuso*Wgain
+    Vdif = reglas_control_v(edelta, eX, eY)
+    Wdif = reglas_control_w(edelta, eX, eY)
+    
+    Vcalc = Vdif * Vgain
+    Wcalc = Wdif * Wgain
     
     print("Velocidad lineal V: {:.6f}".format(Vcalc))
     print("Velocidad angular W: {:.6f}".format(Wcalc))
 
     radio = 0.0162
     long = 0.15
- 
     fact1 = 1/radio
     fact2 = long/radio
 
-    inp1_modvelr = fact1*Vgain*Vcalc
-    inp2_modvelr = fact2*Wgain*Wcalc
+    inp1_modvelr = fact1*Vcalc
+    inp2_modvelr = fact2*Wcalc
 
-    [fi1p, fi2p] = mod_velr(inp1_modvelr, inp2_modvelr)
+    [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
     [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
 
-    print("Velocidad rueda fi1: {:.6f}".format(fi1p))
-    print("Velocidad rueda fi2: {:.6f}".format(fi2p))
+    print("Velocidad rueda fi1: {:.6f}".format(fi1))
+    print("Velocidad rueda fi2: {:.6f}".format(fi2))
     print("Velocidad en X: {:.6f}".format(xp))
     print("Velocidad en Y: {:.6f}".format(yp))
     print("Velocidad ang, theta: {:.6f}".format(thp))
 
-    xcalc = integrator(xp)
-    ycalc = integrator(yp)
-    thcalc = integrator(thp)
-    fi1calc = integrator(fi1p)
-    fi2calc = integrator(fi2p)
-
-    print("----------------------------------------------")
-    #[xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
+    [xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
     
     print("Posición rueda fi1: {:.6f}".format(fi1calc))
     print("Posición rueda fi2: {:.6f}".format(fi2calc))
