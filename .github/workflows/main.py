@@ -290,16 +290,23 @@ def main():
     inp1_modvelr = fact1*Vgain*Vcalc
     inp2_modvelr = fact2*Wgain*Wcalc
 
-    [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
+    [fi1p, fi2p] = mod_velr(inp1_modvelr, inp2_modvelr)
     [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
 
-    print("Velocidad rueda fi1: {:.6f}".format(fi1))
-    print("Velocidad rueda fi2: {:.6f}".format(fi2))
+    print("Velocidad rueda fi1: {:.6f}".format(fi1p))
+    print("Velocidad rueda fi2: {:.6f}".format(fi2p))
     print("Velocidad en X: {:.6f}".format(xp))
     print("Velocidad en Y: {:.6f}".format(yp))
     print("Velocidad ang, theta: {:.6f}".format(thp))
 
-    [xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
+    xcalc = integrator(xp)
+    ycalc = integrator(yp)
+    thcalc = integrator(thp)
+    fi1calc = integrator(fi1p)
+    fi2calc = integrator(fi2p)
+
+    print("----------------------------------------------")
+    #[xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
     
     print("Posición rueda fi1: {:.6f}".format(fi1calc))
     print("Posición rueda fi2: {:.6f}".format(fi2calc))
