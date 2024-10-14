@@ -178,7 +178,7 @@ def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
         return 1
 
 # reglas de control difuso basadas en las funciones de membresía -----------------------------------------------
-def reglas_control_w(error_x, error_y, error_d):
+def reglas_control_w(error_d, error_x, error_y):
     # calcular valores de reglas para W
     pw1 = control_errdP(error_d)  # regla 1
     zw2 = control_errdZ(error_d)  # regla 2
@@ -201,7 +201,7 @@ def reglas_control_w(error_x, error_y, error_d):
     W_f = numer_w / denom_w
     return W_f
 
-def reglas_control_v(error_x, error_y, error_d):
+def reglas_control_v(error_d, error_x, error_y):
     # calcular valores de reglas para V
     pv2 = control_errdZ(error_d)  # regla 2
     zv4 = min(control_errxZ(error_x), control_erryZ(error_y))  # regla 4
