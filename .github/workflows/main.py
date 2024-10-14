@@ -296,9 +296,9 @@ def main():
     
     print("Posición rueda fi1: {:.6f}".format(fi1calc))
     print("Posición rueda fi1: {:.6f}".format(fi2calc))
-    print("Posición en X: {:.6f}".format(xpcalc))
-    print("Posición en Y: {:.6f}".format(ypcalc))
-    print("Posición ang, theta: {:.6f}".format(thpcalc))
+    print("Posición en X: {:.6f}".format(xcalc))
+    print("Posición en Y: {:.6f}".format(ycalc))
+    print("Posición ang, theta: {:.6f}".format(thcalc))
     
 if __name__ == "__main__":
     main()
