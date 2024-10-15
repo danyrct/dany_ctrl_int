@@ -15,14 +15,14 @@ def integrator(Xp):
     # Definir la función de integración
     t_final = tspan[-1]  # obtener el valor final de tiempo (2.54 en este caso)
     X_final = X0 + Xp * t_final
-
     return X_final
-    
+
+# funciones eDelta -----------------------------------------------
 def control_errdN(error_d):
     a_Ned = -1
     b_Ned = 0
     if error_d <= a_Ned:
-        return 1
+        return 3.1416
     elif error_d > a_Ned and error_d <= b_Ned:
         return (b_Ned - error_d) / (b_Ned - a_Ned)
     else:
@@ -47,14 +47,14 @@ def control_errdP(error_d):
     elif error_d >= a_Ped and error_d <= b_Ped:
         return (error_d - a_Ped) / (b_Ped - a_Ped)
     elif error_d >= b_Ped:
-        return 1
+        return 3.1416
 
 # funciones eX -----------------------------------------------
 def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
     a_Nex = -0.2
     b_Nex = 0
     if error_x <= a_Nex:
-        return 1
+        return -0.5
     elif error_x > a_Nex and error_x <= b_Nex:
         return (b_Nex - error_x) / (b_Nex - a_Nex)
     else:
@@ -79,14 +79,14 @@ def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
     elif error_x >= a_Pex and error_x <= b_Pex:
         return (error_x - a_Pex) / (b_Pex - a_Pex)
     elif error_x >= b_Pex:
-        return 1
+        return 0.5
 
 # funciones eY -----------------------------------------------
 def control_erryN(error_y):  # funcion saturación de N de eY en Fctrl
     a_Ney = -0.2
     b_Ney = 0
     if error_y <= a_Ney:
-        return 1
+        return -0.5
     elif error_y > a_Ney and error_y <= b_Ney:
         return (b_Ney - error_y) / (b_Ney - a_Ney)
     else:
@@ -111,14 +111,14 @@ def control_erryP(error_y):  # funcion saturacion de P de eY en Fctrl
     elif error_y >= a_Pey and error_y <= b_Pey:
         return (error_y - a_Pey) / (b_Pey - a_Pey)
     elif error_y >= b_Pey:
-        return 1
+        return 0.5
 
 # funciones V -----------------------------------------------
 def control_errvN(error_v):  # funcion saturación de N de V en Fctrl
     a_Nv = -0.02
     b_Nv = 0
     if error_v <= a_Nv:
-        return 1
+        return -0.05
     elif error_v > a_Nv and error_v <= b_Nv:
         return (b_Nv - error_v) / (b_Nv - a_Nv)
     else:
@@ -143,14 +143,14 @@ def control_errvP(error_v):  # funcion saturacion de P de v en Fctrl
     elif error_v >= a_Pv and error_v <= b_Pv:
         return (error_v - a_Pv) / (b_Pv - a_Pv)
     elif error_v >= b_Pv:
-        return 1
+        return 0.05
 
 # funciones W -----------------------------------------------
 def control_errwN(error_w):  # funcion saturación de N de W en Fctrl
     a_Nw = -0.35
     b_Nw = 0
     if error_w <= a_Nw:
-        return 1
+        return -1
     elif error_w > a_Nw and error_w <= b_Nw:
         return (b_Nw - error_w) / (b_Nw - a_Nw)
     else:
