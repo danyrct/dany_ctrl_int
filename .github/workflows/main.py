@@ -24,7 +24,7 @@ def control_errdN(error_d):
     if error_d <= a_Ned:
         return 3.1416
     elif error_d > a_Ned and error_d <= b_Ned:
-        return (b_Ned - error_d) / (b_Ned - a_Ned)
+        return (error_d - a_Ned) / (b_Ned - a_Ned)
     else:
         return 0
 
@@ -56,7 +56,7 @@ def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
     if error_x <= a_Nex:
         return -0.5
     elif error_x > a_Nex and error_x <= b_Nex:
-        return (b_Nex - error_x) / (b_Nex - a_Nex)
+        return (error_x - a_Nex) / (b_Nex - a_Nex)
     else:
         return 0
 
@@ -88,7 +88,7 @@ def control_erryN(error_y):  # funcion saturación de N de eY en Fctrl
     if error_y <= a_Ney:
         return -0.5
     elif error_y > a_Ney and error_y <= b_Ney:
-        return (b_Ney - error_y) / (b_Ney - a_Ney)
+        return (error_y - a_Ney) / (b_Ney - a_Ney)
     else:
         return 0
 
@@ -120,7 +120,7 @@ def control_errvN(error_v):  # funcion saturación de N de V en Fctrl
     if error_v <= a_Nv:
         return -0.05
     elif error_v > a_Nv and error_v <= b_Nv:
-        return (b_Nv - error_v) / (b_Nv - a_Nv)
+        return (error_v - a_Nv) / (b_Nv - a_Nv)
     else:
         return 0
 
@@ -152,7 +152,7 @@ def control_errwN(error_w):  # funcion saturación de N de W en Fctrl
     if error_w <= a_Nw:
         return -1
     elif error_w > a_Nw and error_w <= b_Nw:
-        return (b_Nw - error_w) / (b_Nw - a_Nw)
+        return (error_w - a_Nw) / (b_Nw - a_Nw)
     else:
         return 0
 
