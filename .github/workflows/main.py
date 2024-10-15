@@ -235,7 +235,7 @@ def mod_velr(V, W):
 def mod_post(Vcalc, Wcalc, theta):
     xp = Vcalc*math.cos(theta)
     yp = Vcalc*math.sin(theta)
-    thp = theta
+    thp = Wcalc
     return xp, yp, thp
     
 def integrar_todo(xp, yp, thp, fi1, fi2):
