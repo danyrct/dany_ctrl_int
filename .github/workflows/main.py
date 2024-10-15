@@ -279,7 +279,7 @@ def main():
     
     print("Velocidad lineal V: {:.6f}".format(Vcalc))
     print("Velocidad angular W: {:.6f}".format(Wcalc))
-
+    print("\n")
     radio = 0.0162
     long = 0.15
     fact1 = 1/radio
@@ -291,12 +291,12 @@ def main():
     [fi1, fi2] = mod_velr(inp1_modvelr, inp2_modvelr)
     [xp, yp, thp] = mod_post(Vcalc, Wcalc, threal)
 
-    print("Velocidad rueda fi1: {:.6f}".format(fi1))
-    print("Velocidad rueda fi2: {:.6f}".format(fi2))
+    #print("Velocidad rueda fi1: {:.6f}".format(fi1))
+    #print("Velocidad rueda fi2: {:.6f}".format(fi2))
     print("Velocidad en X: {:.6f}".format(xp))
     print("Velocidad en Y: {:.6f}".format(yp))
     print("Velocidad ang, theta: {:.6f}".format(thp))
-
+    print("\n")
     [xcalc, ycalc, thcalc, fi1calc, fi2calc] = integrar_todo(xp, yp, thp, fi1, fi2)
     
     print("Posición rueda fi1: {:.6f}".format(fi1calc))
@@ -304,6 +304,6 @@ def main():
     print("Posición en X: {:.6f}".format(xcalc))
     print("Posición en Y: {:.6f}".format(ycalc))
     print("Posición ang, theta: {:.6f}".format(thcalc))
-    
+    print("\n")
 if __name__ == "__main__":
     main()
