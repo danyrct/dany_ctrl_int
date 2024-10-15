@@ -18,13 +18,13 @@ def integrator(Xp):
     return X_final
 
 # funciones eDelta -----------------------------------------------
-def control_errdN(error_d):
+def control_errdN(error_d): # saturacion izquierda
     a_Ned = -1
     b_Ned = 0
     if error_d <= a_Ned:
-        return 3.1416
+        return 1
     elif error_d > a_Ned and error_d <= b_Ned:
-        return (error_d - a_Ned) / (b_Ned - a_Ned)
+        return (error_d - b_Ned) / (a_Ned - b_Ned)
     else:
         return 0
 
@@ -39,7 +39,7 @@ def control_errdZ(error_d):
     else:
         return 0
 
-def control_errdP(error_d):
+def control_errdP(error_d): # saturacion derecha
     a_Ped = 0
     b_Ped = 1
     if error_d <= a_Ped:
@@ -50,13 +50,13 @@ def control_errdP(error_d):
         return 3.1416
 
 # funciones eX -----------------------------------------------
-def control_errxN(error_x):  # funcion saturación de N de eX en Fctrl
+def control_errxN(error_x):  # funcion saturación izquierda de N de eX en Fctrl
     a_Nex = -0.2
     b_Nex = 0
     if error_x <= a_Nex:
         return -0.5
     elif error_x > a_Nex and error_x <= b_Nex:
-        return (error_x - a_Nex) / (b_Nex - a_Nex)
+        return (error_x - b_Nex) / (a_Nex - b_Nex)
     else:
         return 0
 
@@ -71,7 +71,7 @@ def control_errxZ(error_x):  # funcion triangular de Z de eX en Fctrl
     else:
         return 0
 
-def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
+def control_errxP(error_x):  # funcion saturacion derecha de P de eX en Fctrl
     a_Pex = 0
     b_Pex = 0.2
     if error_x <= a_Pex:
@@ -82,13 +82,13 @@ def control_errxP(error_x):  # funcion saturacion de P de eX en Fctrl
         return 0.5
 
 # funciones eY -----------------------------------------------
-def control_erryN(error_y):  # funcion saturación de N de eY en Fctrl
+def control_erryN(error_y):  # funcion saturación izquierda de N de eY en Fctrl
     a_Ney = -0.2
     b_Ney = 0
     if error_y <= a_Ney:
         return -0.5
     elif error_y > a_Ney and error_y <= b_Ney:
-        return (error_y - a_Ney) / (b_Ney - a_Ney)
+        return (error_y - b_Ney) / (a_Ney - b_Ney)
     else:
         return 0
 
@@ -103,7 +103,7 @@ def control_erryZ(error_y):  # funcion triangular de Z de eY en Fctrl
     else:
         return 0
 
-def control_erryP(error_y):  # funcion saturacion de P de eY en Fctrl
+def control_erryP(error_y):  # funcion saturacion derecha de P de eY en Fctrl
     a_Pey = 0
     b_Pey = 0.2
     if error_y <= a_Pey:
@@ -114,13 +114,13 @@ def control_erryP(error_y):  # funcion saturacion de P de eY en Fctrl
         return 0.5
 
 # funciones V -----------------------------------------------
-def control_errvN(error_v):  # funcion saturación de N de V en Fctrl
+def control_errvN(error_v):  # funcion saturación izquierda de N de V en Fctrl
     a_Nv = -0.02
     b_Nv = 0
     if error_v <= a_Nv:
         return -0.05
     elif error_v > a_Nv and error_v <= b_Nv:
-        return (error_v - a_Nv) / (b_Nv - a_Nv)
+        return (error_v - b_Nv) / (a_Nv - b_Nv)
     else:
         return 0
 
@@ -135,7 +135,7 @@ def control_errvZ(error_v):  # funcion triangular de Z de v en Fctrl
     else:
         return 0
 
-def control_errvP(error_v):  # funcion saturacion de P de v en Fctrl
+def control_errvP(error_v):  # funcion saturacion derecha de P de v en Fctrl
     a_Pv = 0
     b_Pv = 0.02
     if error_v <= a_Pv:
@@ -146,13 +146,13 @@ def control_errvP(error_v):  # funcion saturacion de P de v en Fctrl
         return 0.05
 
 # funciones W -----------------------------------------------
-def control_errwN(error_w):  # funcion saturación de N de W en Fctrl
+def control_errwN(error_w):  # funcion saturación izquierda de N de W en Fctrl
     a_Nw = -0.35
     b_Nw = 0
     if error_w <= a_Nw:
         return -1
     elif error_w > a_Nw and error_w <= b_Nw:
-        return (error_w - a_Nw) / (b_Nw - a_Nw)
+        return (error_w - b_Nw) / (a_Nw - b_Nw)
     else:
         return 0
 
@@ -167,7 +167,7 @@ def control_errwZ(error_w):  # funcion triangular de Z de W en Fctrl
     else:
         return 0
 
-def control_errwP(error_w):  # funcion saturacion de P de W en Fctrl
+def control_errwP(error_w):  # funcion saturacion derecha de P de W en Fctrl
     a_Pw = 0
     b_Pw = 0.35
     if error_w <= a_Pw:
