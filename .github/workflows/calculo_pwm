@@ -1,1 +1,60 @@
+# Este código calcula el PWD a partir de una Phi 
 
+from machine import Pin, PWM
+
+# Configuración del pin PWM
+pwm_pin = Pin(0)  # Cambia el número de pin según tu configuración
+pwm = PWM(pwm_pin)
+
+# Configuración de la frecuencia del PWM
+pwm.freq(1000)  # Ajusta la frecuencia según tus necesidades
+
+# Tabla de calibración (ejemplo)
+# Formato: [(velocidad angular en rad/s, valor PWM), ...]
+calibration_table = [
+    (0.5, 10),
+    (1.80, 15),
+    (4, 20),
+    (5, 25),
+    (7, 30),
+    (8, 35),
+    (9, 40),
+    (12, 45),
+    (13, 50),
+    (15, 55),
+    (16, 60),
+    (19, 65),
+    (20, 70),
+    (22, 75),
+    (23, 80),
+    (25, 85),
+    (26, 90),
+    (28, 95),
+    (30, 100)
+]
+
+def interpolate_pwm(Phi):
+    # Si Phi está fuera de la tabla y es menor a 0.5, PWM es 0
+    if Phi < 0.5:
+        return 0
+    # Si Phi está fuera de la tabla y es mayor a 30, PWM es 100
+    elif Phi > 30:
+        return 100
+    # Encuentra los dos puntos más cercanos en la tabla de calibración
+    for i in range(len(calibration_table) - 1):
+        if calibration_table[i][0] <= Phi <= calibration_table[i + 1][0]:
+            # Interpolación lineal
+            Phi1, pwm1 = calibration_table[i]
+            Phi2, pwm2 = calibration_table[i + 1]
+            pwm_value = pwm1 + (Phi - Phi1) * (pwm2 - pwm1) / (Phi2 - Phi1)
+            return int(pwm_value)
+    return 0  # Si Phi está fuera del rango de la tabla
+
+def set_motor_speed(Phi):
+    pwm_value = interpolate_pwm(Phi)
+    pwm.duty_u16(pwm_value * 655)  # Ajusta el valor PWM a 16 bits
+    print(f"Velocidad angular (Phi): {Phi} rad/s, Valor PWM: {pwm_value}")
+
+# Ejemplo de uso
+Phi = 4.96  # Velocidad angular deseada en radianes/segundo
+set_motor_speed(Phi)
