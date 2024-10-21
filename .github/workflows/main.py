@@ -291,6 +291,7 @@ def main():
         print("Posición en X: {:.6f}".format(xcalc))
         print("Posición en Y: {:.6f}".format(ycalc))
         print("Posición angular theta: {:.6f}".format(thcalc))
+        print("-----------------------------------------------")
         print("\n")
 
         # Actualizar variables para la siguiente iteración
