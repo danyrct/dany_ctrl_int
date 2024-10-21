@@ -301,14 +301,13 @@ def main():
         fi1_prev = fi1calc
         fi2_prev = fi2calc
 
+        print("Velocidad fi1: {:.6f}".format(fi1_prev))
+            if fi1_prev > 0.0:
+                Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
+                set_motor_speed(Phi)
+
         t += dt
         time.sleep(dt)
-
-    # Ejemplo de uso
-    print("Velocidad fi1: {:.6f}".format(fi1_prev))
-    if fi1_prev > 0.0:
-        Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
-        set_motor_speed(Phi)
     
     print("Simulación finalizada.")
 
