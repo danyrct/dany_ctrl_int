@@ -305,11 +305,12 @@ def main():
         time.sleep(dt)
 
     # Ejemplo de uso
+    print("Velocidad fi1: {:.6f}".format(fi1_prev))
     if fi1_prev > 0.0:
         Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
         set_motor_speed(Phi)
     
     print("Simulación finalizada.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     main()
