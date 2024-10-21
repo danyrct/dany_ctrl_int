@@ -281,6 +281,13 @@ def main():
         print("Velocidad en Y: {:.6f}".format(yp))
         print("Velocidad angular theta: {:.6f}".format(thp))
         print("\n")
+        
+        print("-----------------------------------------------")
+        print("Velocidad fi1: {:.6f}".format(fi1_prev))
+        if fi1_prev > 0.0:
+            Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
+            set_motor_speed(Phi)
+        print("-----------------------------------------------")
 
         xcalc, ycalc, thcalc, fi1calc, fi2calc = integrar_todo(
             xp, yp, thp, fi1, fi2, x_prev, y_prev, th_prev, fi1_prev, fi2_prev, dt
@@ -291,8 +298,7 @@ def main():
         print("Posición en X: {:.6f}".format(xcalc))
         print("Posición en Y: {:.6f}".format(ycalc))
         print("Posición angular theta: {:.6f}".format(thcalc))
-        print("-----------------------------------------------")
-        print("\n")
+        print("**********************************************")
 
         # Actualizar variables para la siguiente iteración
         x_prev = xcalc
@@ -300,11 +306,6 @@ def main():
         th_prev = thcalc
         fi1_prev = fi1calc
         fi2_prev = fi2calc
-
-        print("Velocidad fi1: {:.6f}".format(fi1_prev))
-            if fi1_prev > 0.0:
-                Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
-                set_motor_speed(Phi)
 
         t += dt
         time.sleep(dt)
