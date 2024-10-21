@@ -304,8 +304,9 @@ def main():
         time.sleep(dt)
 
     # Ejemplo de uso
-    Phi = 4.96  # Velocidad angular deseada en radianes/segundo
-    set_motor_speed(Phi)
+    if fi1_prev > 0.0:
+        Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
+        set_motor_speed(Phi)
     
     print("Simulación finalizada.")
 
