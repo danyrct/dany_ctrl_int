@@ -11,6 +11,27 @@ pwm.freq(1000)  # Ajusta la frecuencia según tus necesidades
 # Tabla de calibración (ejemplo)
 # Formato: [(velocidad angular en rad/s, valor PWM), ...]
 calibration_table = [
+    # negativos
+    (-30, -100),
+    (-28, -95),
+    (-26, -90),
+    (-25, -85),
+    (-23, -80),
+    (-22, -75),
+    (-20, -70),
+    (-19, -65),
+    (-16, -60),
+    (-15, -55),
+    (-13, -50),
+    (-12, -45),
+    (-9, -40),
+    (-8, -35),
+    (-7, -30),
+    (-5, -25),
+    (-4, -20),
+    (-1.80, -15),
+    (-0.5, -10),
+    # positivos
     (0.5, 10),
     (1.80, 15),
     (4, 20),
@@ -200,11 +221,13 @@ def integrar_todo(xp, yp, thp, fi1, fi2, x_prev, y_prev, th_prev, fi1_prev, fi2_
 
 def interpolate_pwm(Phi):
     # Si Phi está fuera de la tabla y es menor a 0.5, PWM es 0
-    if Phi < 0.5:
+    if -0.5 < Phi < 0.5:
         return 0
     # Si Phi está fuera de la tabla y es mayor a 30, PWM es 100
     elif Phi > 30:
         return 100
+    elif Phi < -30:
+        return -100
     # Encuentra los dos puntos más cercanos en la tabla de calibración
     for i in range(len(calibration_table) - 1):
         if calibration_table[i][0] <= Phi <= calibration_table[i + 1][0]:
@@ -218,10 +241,11 @@ def interpolate_pwm(Phi):
 def set_motor_speed(Phi):
     pwm_value = interpolate_pwm(Phi)
     pwm.duty_u16(pwm_value * 655)  # Ajusta el valor PWM a 16 bits
-    print(f"Velocidad angular (Phi): {Phi} rad/s, Valor PWM: {pwm_value}")
+    print(f"Velocidad angular: {Phi} rad/s, Valor PWM: {pwm_value}")
 
 # main
 def main():
+    # incializar variables
     xreal = 0.0
     yreal = 0.0
     threal = 0.0
@@ -280,13 +304,14 @@ def main():
         print("Velocidad en X: {:.6f}".format(xp))
         print("Velocidad en Y: {:.6f}".format(yp))
         print("Velocidad angular theta: {:.6f}".format(thp))
-        print("\n")
         
         print("-----------------------------------------------")
-        print("Velocidad fi1: {:.6f}".format(fi1_prev))
-        if fi1_prev > 0.0:
-            Phi = fi1_prev  # Velocidad angular deseada en radianes/segundo
-            set_motor_speed(Phi)
+        if fi1_prev != 0.0:
+            print("fi1:")
+            set_motor_speed(fi1_prev) # Velocidad angular deseada en radianes/segundo
+        if fi2_prev != 0.0:
+            print("fi2:")
+            set_motor_speed(fi2_prev) # Velocidad angular deseada en radianes/segundo
         print("-----------------------------------------------")
 
         xcalc, ycalc, thcalc, fi1calc, fi2calc = integrar_todo(
