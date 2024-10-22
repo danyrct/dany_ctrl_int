@@ -241,7 +241,8 @@ def interpolate_pwm(Phi):
 def set_motor_speed(Phi):
     pwm_value = interpolate_pwm(Phi)
     pwm.duty_u16(pwm_value * 655)  # Ajusta el valor PWM a 16 bits
-    print(f"Velocidad angular: {Phi} rad/s, Valor PWM: {pwm_value}")
+    return pwm_value
+    # print(f"Velocidad angular: {Phi} rad/s, Valor PWM: {pwm_value}")
 
 # main
 def main():
@@ -308,10 +309,12 @@ def main():
         print("-----------------------------------------------")
         if fi1_prev != 0.0:
             print("fi1:")
-            set_motor_speed(fi1_prev) # Velocidad angular deseada en radianes/segundo
+            pwm_motor1 = set_motor_speed(fi1_prev) # Velocidad angular deseada en radianes/segundo
+            print("PWM rueda fi1: {:.6f}".format(pwm_motor1))
         if fi2_prev != 0.0:
             print("fi2:")
-            set_motor_speed(fi2_prev) # Velocidad angular deseada en radianes/segundo
+            pwm_motor2 = set_motor_speed(fi2_prev) # Velocidad angular deseada en radianes/segundo
+            print("PWM rueda fi2: {:.6f}".format(pwm_motor2))
         print("-----------------------------------------------")
 
         xcalc, ycalc, thcalc, fi1calc, fi2calc = integrar_todo(
